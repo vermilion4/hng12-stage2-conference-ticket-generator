@@ -99,8 +99,8 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
     <div className="space-y-8">
       <div className="border border-top-0 border-borderthree bg-[#0A0C11]/10 rounded-3xl p-6">
         <div className="flex flex-col gap-3 mx-auto text-center justify-center items-center">
-          <h2 className="text-6xl font-roadrage">{eventDetails.title}</h2>
-          <p className="sm:w-2/3 font-roboto">{eventDetails.description}</p>
+          <h2 className="text-4xl md:text-6xl font-roadrage">{eventDetails.title}</h2>
+          <p className="sm:w-2/3 font-roboto text-sm md:text-base">{eventDetails.description}</p>
           <div className="flex flex-col md:flex-row gap-3 items-center font-roboto">
             {/* location */}
             <p>📍 {eventDetails.location}</p>

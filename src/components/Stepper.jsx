@@ -132,12 +132,12 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
   };
 
   return (
-    <div className="w-full max-w-[760px] mx-auto rounded-[40px] p-12 border border-bordertwo bg-greentwo">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="text-3xl">
+    <div className="w-full max-w-[760px] mx-auto rounded-[40px] p-6 md:p-12 border border-bordertwo bg-greentwo">
+      <div className="flex justify-between items-center mb-3 gap-3 flex-wrap">
+        <h2 className="text-2xl md:text-3xl">
           {steps[currentStep].title}
         </h2>
-        <span className="text-lightgrey font-roboto">
+        <span className="text-lightgrey text-sm md:text-base font-roboto">
           Step {currentStep + 1}/{steps.length}
         </span>
       </div>
@@ -151,7 +151,7 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
       </div>
 
       {/* Step content */}
-      <div className={`mt-6 ${currentStep !== 2 && 'p-6 bg-greenfour rounded-[32px] border border-greenthree'}`}>
+      <div className={`mt-6 ${currentStep !== 2 && 'md:p-6 md:bg-greenfour md:rounded-[32px] md:border border-greenthree'}`}>
         {currentStep === 2 ? (
           <div className='text-center font-roboto'>
             <h3 className='pb-4 text-3xl'>Your Ticket is Booked!</h3>
