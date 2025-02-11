@@ -16,7 +16,7 @@ A modern conference ticket booking application built with [Next.js](https://next
 First, Clone the repository:
 
 ```bash
-git clone https://github.com/vermilion4/conference-ticket-generator.git
+git clone https://github.com/vermilion4/hng12-stage2-conference-ticket-generator.git
 ```
 
 Install dependencies:
