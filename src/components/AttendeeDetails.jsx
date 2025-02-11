@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image';
-import React, { useState, useRef, forwardRef } from 'react'
+import React, { useState, useRef, forwardRef, useEffect } from 'react'
 
 const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
   const [imageUrl, setImageUrl] = useState('');
@@ -11,6 +11,16 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
     email: '',
     photo: ''
   });
+
+  // Load saved values from localStorage on mount
+  useEffect(() => {
+    const savedDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+    if (savedDetails) {
+      if (savedDetails.photo) setImageUrl(savedDetails.photo);
+      if (savedDetails.name) fileInputRef.current.form.name.value = savedDetails.name;
+      if (savedDetails.email) fileInputRef.current.form.email.value = savedDetails.email;
+    }
+  }, []);
 
   // Upload image to Cloudinary and get link
   const uploadToCloudinary = async (file) => {
@@ -31,6 +41,13 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
       const data = await response.json();
       setImageUrl(data.secure_url);
       setFormErrors(prev => ({...prev, photo: ''}));
+
+      // Save photo URL to localStorage
+      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+      localStorage.setItem('ticketDetails', JSON.stringify({
+        ...existingDetails,
+        photo: data.secure_url
+      }));
     } catch (error) {
       console.error('Error uploading image:', error);
       setFormErrors(prev => ({...prev, photo: 'Failed to upload image'}));
@@ -73,6 +90,12 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
       setFormErrors(prev => ({...prev, name: 'Please enter your name'}));
     } else {
       setFormErrors(prev => ({...prev, name: ''}));
+      // Save name to localStorage
+      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+      localStorage.setItem('ticketDetails', JSON.stringify({
+        ...existingDetails,
+        name: value
+      }));
     }
   };
 
@@ -86,6 +109,12 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
       setFormErrors(prev => ({...prev, email: 'Please enter a valid email'}));
     } else {
       setFormErrors(prev => ({...prev, email: ''}));
+      // Save email to localStorage
+      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+      localStorage.setItem('ticketDetails', JSON.stringify({
+        ...existingDetails,
+        email: value
+      }));
     }
   };
 
