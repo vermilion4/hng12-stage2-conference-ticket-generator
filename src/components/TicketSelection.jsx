@@ -97,10 +97,15 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
 
   return (
     <div className="space-y-8">
-      <div className="border border-top-0 border-borderthree bg-[#0A0C11]/10 rounded-3xl p-6">
-        <div className="flex flex-col gap-3 mx-auto text-center justify-center items-center">
-          <h2 className="text-4xl md:text-6xl font-roadrage">{eventDetails.title}</h2>
-          <p className="sm:w-2/3 font-roboto text-sm md:text-base">{eventDetails.description}</p>
+      <div className="relative overflow-hidden border border-top-0 border-borderthree bg-[#0A0C11]/10 rounded-3xl p-6">
+        <div className="absolute top-0 left-0 w-full h-[30vh] bg-[radial-gradient(ellipse_at_top_left,rgba(36,160,181,0.3)_0%,rgba(36,160,181,0)_70%)]" />
+        <div className=" flex flex-col gap-3 mx-auto text-center justify-center items-center">
+          <h2 className="text-4xl md:text-6xl font-roadrage">
+            {eventDetails.title}
+          </h2>
+          <p className="sm:w-2/3 font-roboto text-sm md:text-base">
+            {eventDetails.description}
+          </p>
           <div className="flex flex-col md:flex-row gap-3 items-center font-roboto">
             {/* location */}
             <p>📍 {eventDetails.location}</p>
