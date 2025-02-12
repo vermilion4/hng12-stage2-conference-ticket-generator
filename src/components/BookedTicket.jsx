@@ -30,7 +30,7 @@ const BookedTicket = () => {
     }
   }, []);
 
-  return <div className='max-w-56 sm:max-w-sm mx-auto'>
+  return <div className='max-w-72 sm:max-w-sm mx-auto'>
     <EventTicket isStep={true} ticketDetails={ticketDetails} />
   </div>
 
