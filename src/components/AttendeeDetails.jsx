@@ -234,7 +234,7 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
     <div className="space-y-8 w-full font-roboto" role="main">
       <form className="space-y-8" onSubmit={handleSubmit} ref={ref} noValidate>
         {/* Upload Profile Photo */}
-        <div className="border border-borderthree bg-greenfive rounded-3xl p-6 pb-12 w-full">
+        <div className="border border-borderthree bg-greenfive rounded-3xl p-6 pb-14 w-full relative">
           <h3 className="mb-10" id="upload-section">
             Upload Profile Photo
           </h3>
@@ -272,7 +272,7 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
                           width={32}
                           height={32}
                         />
-                        <p className="text-center">
+                        <p className="text-center w-[80%]">
                           Drag & Drop or Click to Upload
                         </p>
                       </>
@@ -294,7 +294,7 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
                         width={32}
                         height={32}
                       />
-                      <p className="text-center">
+                      <p className="text-center w-[80%]">
                         Drag & Drop or Click to Upload
                       </p>
                     </>
@@ -315,7 +315,7 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
           {formErrors.photo && (
             <span
               id="photo-error"
-              className="text-red-500 text-sm mt-2 block"
+              className="text-red-500 text-sm absolute bottom-2 left-6"
               role="alert"
             >
               {formErrors.photo}
