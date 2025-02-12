@@ -74,16 +74,16 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
       // step 1
       case 0:
         return (
-          <div className="flex flex-wrap-reverse md:justify-center gap-3 md:gap-8 mt-8 rounded-3xl md:border border-greenthree px-0 md:px-12 md:bg-greentwo">
+          <div className="flex flex-col-reverse md:flex-row gap-3 mt-8">
             <button
               onClick={() => setCurrentStep(0)}
-              className="px-6 w-full md:w-[134px] py-3 rounded-lg border border-greenone text-greenone hover:bg-primary/40 transition-colors whitespace-nowrap"
+              className="px-6 w-full py-3 rounded-lg border border-greenone text-greenone hover:bg-primary/40 transition-colors whitespace-nowrap"
             >
               Cancel
             </button>
             <button
               onClick={handleNext}
-              className="px-6 w-full md:w-[134px] py-3 rounded-lg bg-greenone text-white hover:bg-borderone transition-colors whitespace-nowrap"
+              className="px-6 w-full py-3 rounded-lg bg-greenone hover:bg-borderone text-white transition-colors whitespace-nowrap"
             >
               Next
             </button>
@@ -110,17 +110,17 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
       // step 3
       case 2:
         return (
-          <div className="flex flex-wrap-reverse md:justify-center gap-3 md:gap-8 mt-8 rounded-3xl md:border border-greenthree px-0 md:px-12 md:bg-greentwo">
+          <div className="flex flex-col-reverse md:flex-row gap-3 mt-8">
             <button
               onClick={() => setCurrentStep(0)}
-              className="px-6 w-full md:w-fit py-3 rounded-lg border border-greenone text-greenone hover:bg-primary/40 transition-colors whitespace-nowrap"
+              className="px-6 w-full py-3 rounded-lg border border-greenone text-greenone hover:bg-primary/40 transition-colors whitespace-nowrap"
             >
               Book Another Ticket
             </button>
             <button
               onClick={downloadTicket}
-              disabled={isDownloading}
-              className="px-6 w-full md:w-fit py-3 rounded-lg bg-greenone text-white hover:bg-borderone transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isDownloading} 
+              className="px-6 w-full py-3 rounded-lg bg-greenone hover:bg-borderone text-white transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isDownloading ? 'Downloading...' : 'Download Ticket'}
             </button>
@@ -158,7 +158,7 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
             <p className='text-lightgrey text-sm md:text-base'>
               Check your email for a copy or you can <span className='font-bold'>download</span>
             </p>
-            <div className='my-10 flex justify-center'>
+            <div className='my-16 flex justify-center'>
               <div ref={ticketRef}>
                 {steps[currentStep].component}
               </div>

@@ -234,13 +234,13 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
     <div className="space-y-8 w-full font-roboto" role="main">
       <form className="space-y-8" onSubmit={handleSubmit} ref={ref} noValidate>
         {/* Upload Profile Photo */}
-        <div className="border border-borderthree bg-greenfive rounded-3xl p-6 w-full">
-          <h3 className="mb-5" id="upload-section">
+        <div className="border border-borderthree bg-greenfive rounded-3xl p-6 pb-12 w-full">
+          <h3 className="mb-10" id="upload-section">
             Upload Profile Photo
           </h3>
-          <div className="bg-black/20 flex justify-center items-center w-full">
+          <div className="sm:bg-black/20 flex justify-center items-center w-full">
             <div
-              className="w-full max-w-[240px] h-[240px] bg-bordertwo rounded-[32px] p-6 flex flex-col gap-2 justify-center items-center relative cursor-pointer group focus-within:ring-2 focus-within:ring-borderone"
+              className="w-full max-w-[240px] -my-5 h-[240px] bg-bordertwo rounded-[32px] p-6 flex flex-col gap-2 justify-center items-center relative cursor-pointer group focus-within:ring-2 focus-within:ring-borderone border-4 border-greenone"
               onDragOver={handleDragOver}
               onDrop={handleDrop}
               onClick={handleClick}

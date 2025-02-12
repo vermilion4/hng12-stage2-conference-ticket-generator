@@ -130,7 +130,7 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
           <p className="text-red-500 text-sm mb-2">{errors.ticketType}</p>
         )}
         <div className="p-4 rounded-3xl border border-borderthree bg-greenfive">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {eventDetails.ticketTypes.map((ticketType) => {
               const ticketsRemaining = ticketsLeft[ticketType.type] || 0;
               const isDisabled = ticketsRemaining === 0;
@@ -138,25 +138,23 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
               return (
                 <div
                   key={ticketType.id}
-                  className={`flex justify-between items-start p-4 rounded-xl border ${
+                  className={`flex justify-between items-start p-4 rounded-xl ${
                     isDisabled
                       ? "bg-gray-500 border-gray-600 cursor-not-allowed opacity-50"
                       : selectedTicketType === ticketType.type
-                        ? "bg-borderone border-borderone"
-                        : "border-borderthree hover:bg-borderone hover:border-borderone"
-                  } w-full transition-all duration-300 ease-in-out cursor-pointer group`}
+                        ? "bg-greensix border"
+                        : "hover:bg-borderfive"
+                  } border-2 border-borderone w-full transition-all duration-300 ease-in-out cursor-pointer group`}
                   onClick={() =>
                     !isDisabled && handleTicketTypeSelect(ticketType.type)
                   }
                 >
                   <div className="flex flex-col gap-1 text-lightgrey group-hover:text-white">
-                    <h4 className="uppercase">{ticketType.type}</h4>
-                    <p className="text-sm">{ticketsRemaining} left!</p>
-                  </div>
-                  <div className="bg-greenthree rounded-lg p-2 border border-borderfour w-20 text-right">
-                    <p className="font-semibold text-xl">
+                  <p className="font-semibold text-2xl">
                       {ticketType.price === 0 ? "Free" : `₦${ticketType.price}`}
                     </p>
+                    <h4 className="uppercase text-lightgrey">{ticketType.type}</h4>
+                    <p className="text-sm text-[#D9D9D9]">{ticketsRemaining}/{ticketType.limit}</p>
                   </div>
                 </div>
               );
