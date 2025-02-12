@@ -156,7 +156,7 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
           <div className='text-center font-roboto'>
             <h3 className='pb-4 text-3xl'>Your Ticket is Booked!</h3>
             <p className='text-lightgrey'>
-              You can download or Check your email for a copy.
+            Check your email for a copy or you can <span className='font-bold'>download</span>
             </p>
             <div className='my-10'>
               <div ref={ticketRef}>

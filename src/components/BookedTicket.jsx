@@ -30,7 +30,7 @@ const BookedTicket = () => {
     }
   }, []);
 
-  return <EventTicket ticketDetails={ticketDetails} />
+  return <EventTicket isStep={true} ticketDetails={ticketDetails} />
 }
 
 export default BookedTicket

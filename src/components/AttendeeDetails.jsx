@@ -1,24 +1,32 @@
-'use client'
-import Image from 'next/image';
-import React, { useState, useRef, forwardRef, useEffect } from 'react'
+"use client";
+import Image from "next/image";
+import React, { useState, useRef, forwardRef, useEffect } from "react";
 
 const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
   const [formErrors, setFormErrors] = useState({
-    name: '',
-    email: '',
-    photo: ''
+    name: "",
+    email: "",
+    photo: "",
+    specialRequest: "",
   });
 
   // Load saved values from localStorage on mount
   useEffect(() => {
-    const savedDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+    const savedDetails = JSON.parse(
+      localStorage.getItem("ticketDetails") || "{}",
+    );
     if (savedDetails) {
       if (savedDetails.photo) setImageUrl(savedDetails.photo);
-      if (savedDetails.name) fileInputRef.current.form.name.value = savedDetails.name;
-      if (savedDetails.email) fileInputRef.current.form.email.value = savedDetails.email;
+      if (savedDetails.name)
+        fileInputRef.current.form.name.value = savedDetails.name;
+      if (savedDetails.email)
+        fileInputRef.current.form.email.value = savedDetails.email;
+      if (savedDetails.specialRequest)
+        fileInputRef.current.form.specialRequest.value =
+          savedDetails.specialRequest;
     }
   }, []);
 
@@ -27,30 +35,35 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
     try {
       setIsUploading(true);
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
       formData.append("upload_preset", "ml_default");
-      
+
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
         {
-          method: 'POST',
+          method: "POST",
           body: formData,
-        }
+        },
       );
 
       const data = await response.json();
       setImageUrl(data.secure_url);
-      setFormErrors(prev => ({...prev, photo: ''}));
+      setFormErrors((prev) => ({ ...prev, photo: "" }));
 
       // Save photo URL to localStorage
-      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
-      localStorage.setItem('ticketDetails', JSON.stringify({
-        ...existingDetails,
-        photo: data.secure_url
-      }));
+      const existingDetails = JSON.parse(
+        localStorage.getItem("ticketDetails") || "{}",
+      );
+      localStorage.setItem(
+        "ticketDetails",
+        JSON.stringify({
+          ...existingDetails,
+          photo: data.secure_url,
+        }),
+      );
     } catch (error) {
-      console.error('Error uploading image:', error);
-      setFormErrors(prev => ({...prev, photo: 'Failed to upload image'}));
+      console.error("Error uploading image:", error);
+      setFormErrors((prev) => ({ ...prev, photo: "Failed to upload image" }));
     } finally {
       setIsUploading(false);
     }
@@ -63,9 +76,9 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
   // Handle drop image
   const handleDrop = async (e) => {
     e.preventDefault();
-    
+
     const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       await uploadToCloudinary(file);
     }
   };
@@ -87,15 +100,20 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
   const handleNameChange = (e) => {
     const value = e.target.value;
     if (!value.trim()) {
-      setFormErrors(prev => ({...prev, name: 'Please enter your name'}));
+      setFormErrors((prev) => ({ ...prev, name: "Please enter your name" }));
     } else {
-      setFormErrors(prev => ({...prev, name: ''}));
+      setFormErrors((prev) => ({ ...prev, name: "" }));
       // Save name to localStorage
-      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
-      localStorage.setItem('ticketDetails', JSON.stringify({
-        ...existingDetails,
-        name: value
-      }));
+      const existingDetails = JSON.parse(
+        localStorage.getItem("ticketDetails") || "{}",
+      );
+      localStorage.setItem(
+        "ticketDetails",
+        JSON.stringify({
+          ...existingDetails,
+          name: value,
+        }),
+      );
     }
   };
 
@@ -104,17 +122,48 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
     const value = e.target.value;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!value.trim()) {
-      setFormErrors(prev => ({...prev, email: 'Please enter your email'}));
+      setFormErrors((prev) => ({ ...prev, email: "Please enter your email" }));
     } else if (!emailRegex.test(value)) {
-      setFormErrors(prev => ({...prev, email: 'Please enter a valid email'}));
-    } else {
-      setFormErrors(prev => ({...prev, email: ''}));
-      // Save email to localStorage
-      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
-      localStorage.setItem('ticketDetails', JSON.stringify({
-        ...existingDetails,
-        email: value
+      setFormErrors((prev) => ({
+        ...prev,
+        email: "Please enter a valid email",
       }));
+    } else {
+      setFormErrors((prev) => ({ ...prev, email: "" }));
+      // Save email to localStorage
+      const existingDetails = JSON.parse(
+        localStorage.getItem("ticketDetails") || "{}",
+      );
+      localStorage.setItem(
+        "ticketDetails",
+        JSON.stringify({
+          ...existingDetails,
+          email: value,
+        }),
+      );
+    }
+  };
+
+  // Handle special request change
+  const handleSpecialRequestChange = (e) => {
+    const value = e.target.value;
+    if (value.length > 500) {
+      setFormErrors((prev) => ({
+        ...prev,
+        specialRequest: "Special request must be less than 500 characters",
+      }));
+    } else {
+      setFormErrors((prev) => ({ ...prev, specialRequest: "" }));
+      const existingDetails = JSON.parse(
+        localStorage.getItem("ticketDetails") || "{}",
+      );
+      localStorage.setItem(
+        "ticketDetails",
+        JSON.stringify({
+          ...existingDetails,
+          specialRequest: value.trim() || "No request",
+        }),
+      );
     }
   };
 
@@ -122,17 +171,27 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let hasErrors = false;
-    
+
     if (!imageUrl) {
-      setFormErrors(prev => ({...prev, photo: 'Please upload a profile photo'}));
+      setFormErrors((prev) => ({
+        ...prev,
+        photo: "Please upload a profile photo",
+      }));
       hasErrors = true;
     }
     if (!e.target.name.value.trim()) {
-      setFormErrors(prev => ({...prev, name: 'Please enter your name'}));
+      setFormErrors((prev) => ({ ...prev, name: "Please enter your name" }));
       hasErrors = true;
     }
     if (!e.target.email.value.trim()) {
-      setFormErrors(prev => ({...prev, email: 'Please enter your email'}));
+      setFormErrors((prev) => ({ ...prev, email: "Please enter your email" }));
+      hasErrors = true;
+    }
+    if (e.target.specialRequest.value.length > 500) {
+      setFormErrors((prev) => ({
+        ...prev,
+        specialRequest: "Special request must be less than 500 characters",
+      }));
       hasErrors = true;
     }
 
@@ -140,21 +199,24 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
       const attendeeData = {
         name: e.target.name.value,
         email: e.target.email.value,
-        photo: imageUrl
+        photo: imageUrl,
+        specialRequest: e.target.specialRequest.value.trim() || "No request",
       };
 
       // Get existing ticket details and merge with attendee data
-      const existingDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+      const existingDetails = JSON.parse(
+        localStorage.getItem("ticketDetails") || "{}",
+      );
       const updatedDetails = {
         ...existingDetails,
-        ...attendeeData
+        ...attendeeData,
       };
-      
+
       // Save updated details back to localStorage
-      localStorage.setItem('ticketDetails', JSON.stringify(updatedDetails));
+      localStorage.setItem("ticketDetails", JSON.stringify(updatedDetails));
 
       onSubmit({
-        success: true
+        success: true,
       });
     } else {
       onSubmit({ success: false });
@@ -163,20 +225,22 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
 
   // Handle key press (opens the file input when the user presses enter or space) - accessibility
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       handleClick();
     }
   };
 
   return (
-    <div className='space-y-8 w-full font-roboto' role="main">
-      <form className='space-y-8' onSubmit={handleSubmit} ref={ref} noValidate>
+    <div className="space-y-8 w-full font-roboto" role="main">
+      <form className="space-y-8" onSubmit={handleSubmit} ref={ref} noValidate>
         {/* Upload Profile Photo */}
-        <div className='border border-borderthree bg-greenfive rounded-3xl p-6 w-full'>
-          <h3 className='mb-5' id="upload-section">Upload Profile Photo</h3>
-          <div className='bg-black/20 flex justify-center items-center w-full'>
+        <div className="border border-borderthree bg-greenfive rounded-3xl p-6 w-full">
+          <h3 className="mb-5" id="upload-section">
+            Upload Profile Photo
+          </h3>
+          <div className="bg-black/20 flex justify-center items-center w-full">
             <div
-              className='w-full max-w-[240px] h-[240px] bg-bordertwo rounded-[32px] p-6 flex flex-col gap-2 justify-center items-center relative cursor-pointer group focus-within:ring-2 focus-within:ring-borderone'
+              className="w-full max-w-[240px] h-[240px] bg-bordertwo rounded-[32px] p-6 flex flex-col gap-2 justify-center items-center relative cursor-pointer group focus-within:ring-2 focus-within:ring-borderone"
               onDragOver={handleDragOver}
               onDrop={handleDrop}
               onClick={handleClick}
@@ -188,19 +252,29 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
             >
               {imageUrl ? (
                 <>
-                  <Image 
-                    src={imageUrl} 
-                    alt="Uploaded profile" 
+                  <Image
+                    src={imageUrl || "https://placehold.co/240x240"}
+                    alt="Uploaded profile"
                     fill
-                    className='object-cover rounded-[32px]'
+                    className="object-cover rounded-[32px]"
                   />
-                  <div className='absolute inset-0 bg-black/30 rounded-[32px] opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity flex flex-col gap-2 justify-center items-center'>
+                  <div className="absolute inset-0 bg-black/30 rounded-[32px] opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity flex flex-col gap-2 justify-center items-center">
                     {isUploading ? (
-                      <p className='text-center' role="status">Uploading...</p>
+                      <p className="text-center" role="status">
+                        Uploading...
+                      </p>
                     ) : (
                       <>
-                        <Image src="/upload.svg" alt="" role="presentation" width={32} height={32} />
-                        <p className='text-center'>Drag & Drop or Click to Upload</p>
+                        <Image
+                          src="/upload.svg"
+                          alt=""
+                          role="presentation"
+                          width={32}
+                          height={32}
+                        />
+                        <p className="text-center">
+                          Drag & Drop or Click to Upload
+                        </p>
                       </>
                     )}
                   </div>
@@ -208,51 +282,64 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
               ) : (
                 <>
                   {isUploading ? (
-                    <p className='text-center' role="status">Uploading...</p>
+                    <p className="text-center" role="status">
+                      Uploading...
+                    </p>
                   ) : (
                     <>
-                      <Image src="/upload.svg" alt="" role="presentation" width={32} height={32} />
-                      <p className='text-center'>Drag & Drop or Click to Upload</p>
+                      <Image
+                        src="/upload.svg"
+                        alt=""
+                        role="presentation"
+                        width={32}
+                        height={32}
+                      />
+                      <p className="text-center">
+                        Drag & Drop or Click to Upload
+                      </p>
                     </>
                   )}
                 </>
               )}
-              <input 
-                type="file" 
-                className='hidden' 
+              <input
+                type="file"
+                className="hidden"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 accept="image/*"
-                aria-label="Choose profile photo"
                 required
                 aria-required="true"
               />
             </div>
           </div>
           {formErrors.photo && (
-            <span id="photo-error" className="text-red-500 text-sm mt-2 block" role="alert">
+            <span
+              id="photo-error"
+              className="text-red-500 text-sm mt-2 block"
+              role="alert"
+            >
               {formErrors.photo}
             </span>
           )}
         </div>
-        
+
         {/* Separator */}
-        <div className='bg-borderthree h-1' role="separator" />
+        <div className="bg-borderthree h-1" role="separator" />
 
         {/* Attendee Details */}
         {/* Name */}
-        <div className='flex flex-col gap-2'>
-          <label htmlFor='name' className='text-lightgrey'>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="text-lightgrey">
             Enter your name <span aria-label="required">*</span>
           </label>
-          <input 
-            type='text' 
-            id='name' 
+          <input
+            type="text"
+            id="name"
             required
             aria-required="true"
             aria-invalid={!!formErrors.name}
             aria-describedby={formErrors.name ? "name-error" : undefined}
-            className='w-full bg-transparent border border-borderthree rounded-xl p-2 h-12 focus:outline-none focus:ring-2 focus:ring-borderone hover:border-borderone transition-colors'
+            className="w-full bg-transparent border border-borderthree rounded-xl p-2 h-12 focus:outline-none focus:ring-2 focus:ring-borderone hover:border-borderone transition-colors"
             onChange={handleNameChange}
             onBlur={handleNameChange}
           />
@@ -263,37 +350,72 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
           )}
         </div>
         {/* Email */}
-        <div className='flex flex-col gap-2'>
-          <label htmlFor='email' className='text-lightgrey'>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="email" className="text-lightgrey">
             Enter your email <span aria-label="required">*</span>
           </label>
-          <div className='flex items-center w-full border border-borderthree rounded-xl h-12 overflow-hidden group hover:border-borderone focus-within:ring-2 focus-within:ring-borderone transition-colors'>
-            <div className='pl-3 pr-1'>
-              <Image src="/email.svg" alt="" role="presentation" width={24} height={24} />
+          <div className="flex items-center w-full border border-borderthree rounded-xl h-12 overflow-hidden group hover:border-borderone focus-within:ring-2 focus-within:ring-borderone transition-colors">
+            <div className="pl-3 pr-1">
+              <Image
+                src="/email.svg"
+                alt=""
+                role="presentation"
+                width={24}
+                height={24}
+              />
             </div>
-            <input 
-              type='email' 
-              id='email' 
+            <input
+              type="email"
+              id="email"
               required
               aria-required="true"
               aria-invalid={!!formErrors.email}
               aria-describedby={formErrors.email ? "email-error" : undefined}
-              className='flex-1 bg-transparent p-2 outline-none'
+              className="flex-1 bg-transparent p-2 outline-none"
               onChange={handleEmailChange}
               onBlur={handleEmailChange}
             />
           </div>
           {formErrors.email && (
-            <span id="email-error" className="text-red-500 text-sm" role="alert">
+            <span
+              id="email-error"
+              className="text-red-500 text-sm"
+              role="alert"
+            >
               {formErrors.email}
+            </span>
+          )}
+        </div>
+        {/* Special request */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="specialRequest" className="text-lightgrey">
+            Special request
+          </label>
+          <textarea
+            id="specialRequest"
+            className="w-full bg-transparent border border-borderthree rounded-xl p-2 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-borderone hover:border-borderone transition-colors resize-y"
+            onChange={handleSpecialRequestChange}
+            onBlur={handleSpecialRequestChange}
+            aria-invalid={!!formErrors.specialRequest}
+            aria-describedby={
+              formErrors.specialRequest ? "specialRequest-error" : undefined
+            }
+          />
+          {formErrors.specialRequest && (
+            <span
+              id="specialRequest-error"
+              className="text-red-500 text-sm"
+              role="alert"
+            >
+              {formErrors.specialRequest}
             </span>
           )}
         </div>
       </form>
     </div>
-  )
+  );
 });
 
-AttendeeDetails.displayName = 'AttendeeDetails';
+AttendeeDetails.displayName = "AttendeeDetails";
 
 export default AttendeeDetails;
