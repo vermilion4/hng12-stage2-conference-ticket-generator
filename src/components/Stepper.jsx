@@ -151,26 +151,27 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
       </div>
 
       {/* Step content */}
-      <div className={`mt-6 ${currentStep !== 2 && 'md:p-6 md:bg-greenfour md:rounded-[32px] md:border border-greenthree'}`}>
-        {currentStep === 2 ? (
+      {currentStep === 2 ? (
+        <div className="mt-6">
           <div className='text-center font-roboto'>
-            <h3 className='pb-4 text-3xl'>Your Ticket is Booked!</h3>
-            <p className='text-lightgrey'>
-            Check your email for a copy or you can <span className='font-bold'>download</span>
+            <h3 className='pb-4 text-2xl md:text-3xl'>Your Ticket is Booked!</h3>
+            <p className='text-lightgrey text-sm md:text-base'>
+              Check your email for a copy or you can <span className='font-bold'>download</span>
             </p>
-            <div className='my-10'>
+            <div className='my-10 flex justify-center'>
               <div ref={ticketRef}>
                 {steps[currentStep].component}
               </div>
             </div>
           </div>
-        ) : (
-          steps[currentStep].component
-        )}
-
-        {/* Navigation buttons */}
-        {renderButtons()}
-      </div>
+          {renderButtons()}
+        </div>
+      ) : (
+        <div className="mt-6 md:p-6 md:bg-greenfour md:rounded-[32px] md:border border-greenthree">
+          {steps[currentStep].component}
+          {renderButtons()}
+        </div>
+      )}
     </div>
   );
 };

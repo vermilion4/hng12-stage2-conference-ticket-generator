@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import EventTicket from '@/components/EventTicket'
 import { toPng } from 'html-to-image'
-import Image from 'next/image'
 
 const TicketsPage = () => {
   const [tickets, setTickets] = useState([])

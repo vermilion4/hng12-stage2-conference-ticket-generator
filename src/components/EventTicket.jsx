@@ -9,9 +9,9 @@ const EventTicket = ({ ticketDetails, isStep }) => {
   }
 
   return (
-    <div className="max-w-md mx-auto font-roboto">
+    <div className="w-full max-w-sm mx-auto font-roboto">
       <div className="bg-[#072C31] p-5 text-white relative border-2 border-greenone rounded-[20px] border-b-0">
-      <div className="absolute top-0 z-10 left-0 w-full h-[30vh] bg-[radial-gradient(ellipse_at_top_center,rgba(36,160,181,0.3)_0%,rgba(36,160,181,0)_70%)]" />
+        <div className="absolute top-0 z-10 left-0 w-full h-[30vh] bg-[radial-gradient(ellipse_at_top_center,rgba(36,160,181,0.3)_0%,rgba(36,160,181,0)_70%)]" />
         {/* Top decorative corners with better blending */}
         <div className="absolute -top-[2px] -left-[2px] w-8 h-8">
           <div className="absolute w-full h-full bg-[#072C31] rounded-full" />
@@ -26,24 +26,24 @@ const EventTicket = ({ ticketDetails, isStep }) => {
         <div className="space-y-5 relative z-20 border-2 border-greenone p-[14px] rounded-[16px]">
           <div className="mb-8">
             {/* Event Title */}
-            <h1 className="text-5xl text-center font-roadrage mb-3">{eventDetails.title}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl text-center font-roadrage mb-3">{eventDetails.title}</h1>
             
             {/* Location and Date */}
             <div className="space-y-1">
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-cyan-400">📍</span>
-                <span>{eventDetails.location}</span>
+              <div className="flex items-center text-center justify-center gap-2">
+                <span className="text-cyan-400 hidden sm:block">📍</span>
+                <span className="text-sm sm:text-base">{eventDetails.location}</span>
               </div>
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-cyan-400">📅</span>
-                <span>{eventDetails.date} | {eventDetails.time}</span>
+              <div className="flex items-center text-center justify-center gap-2">
+                <span className="text-cyan-400 hidden sm:block">📅</span>
+                <span className="text-sm sm:text-base">{eventDetails.date} | {eventDetails.time}</span>
               </div>
             </div>
           </div>
           
           {/* Event Image */}
           <div className="relative flex justify-center mb-3">
-            <div className="border-4 border-greenone/50 w-[140px] h-[140px] rounded-xl overflow-hidden">
+            <div className="border-4 border-greenone/50 w-[100px] sm:w-[120px] md:w-[140px] h-[100px] sm:h-[120px] md:h-[140px] rounded-xl overflow-hidden">
               <Image 
                 src={ticketDetails.photo} 
                 alt="Profile" 
@@ -55,26 +55,26 @@ const EventTicket = ({ ticketDetails, isStep }) => {
           </div>
           
           {/* Ticket Details */}
-          <div className="grid grid-cols-2 bg-[#08343C] border-2 border-[#133D44] rounded-lg p-4 text-left">
+          <div className="grid grid-cols-2 bg-[#08343C] border-2 border-[#133D44] rounded-lg p-4 text-left text-sm sm:text-base">
             <div className="space-y-1 pr-4 col-span-1 pb-2 border-r border-[#12464E]">
-              <label className="text-white text-opacity-[0.33] text-sm">Name</label>
+              <label className="text-white text-opacity-[0.33] text-xs sm:text-sm">Name</label>
               <div className="text-white font-bold truncate overflow-hidden">{ticketDetails.name}</div>
             </div>
             <div className="space-y-1 pl-4 col-span-1 pb-2">
-              <label className="text-white text-opacity-[0.33] text-sm">Email</label>
+              <label className="text-white text-opacity-[0.33] text-xs sm:text-sm">Email</label>
               <div className="text-white font-bold truncate overflow-hidden">{ticketDetails.email}</div>
             </div>
             <div className="space-y-1 pr-4 col-span-1 border-r border-t border-[#12464E] py-2">
-              <label className="text-white text-opacity-[0.33] text-sm">Ticket Type:</label>
-              <div className="text-white text-sm truncate overflow-hidden">{ticketDetails.ticketType}</div>
+              <label className="text-white text-opacity-[0.33] text-xs sm:text-sm">Ticket Type:</label>
+              <div className="text-white truncate overflow-hidden">{ticketDetails.ticketType}</div>
             </div>
             <div className="space-y-1 pl-4 col-span-1 border-t border-[#12464E] py-2">
-              <label className="text-white text-opacity-[0.33] text-sm">Ticket for :</label>
-              <div className="text-white text-sm">{ticketDetails.numberOfTickets}</div>
+              <label className="text-white text-opacity-[0.33] text-xs sm:text-sm">Ticket for :</label>
+              <div className="text-white">{ticketDetails.numberOfTickets}</div>
             </div>
             <div className="space-y-1 col-span-2 border-t border-[#12464E] pt-2">
-              <label className="text-white text-opacity-[0.33] text-sm">Special request?</label>
-              <p className="text-white text-sm line-clamp-5">{ticketDetails.specialRequest}</p>
+              <label className="text-white text-opacity-[0.33] text-xs sm:text-sm">Special request?</label>
+              <p className="text-white line-clamp-5">{ticketDetails.specialRequest}</p>
             </div>
           </div>
         </div>

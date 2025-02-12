@@ -30,7 +30,10 @@ const BookedTicket = () => {
     }
   }, []);
 
-  return <EventTicket isStep={true} ticketDetails={ticketDetails} />
+  return <div className='max-w-56 sm:max-w-sm mx-auto'>
+    <EventTicket isStep={true} ticketDetails={ticketDetails} />
+  </div>
+
 }
 
-export default BookedTicket
+export default BookedTicket;
