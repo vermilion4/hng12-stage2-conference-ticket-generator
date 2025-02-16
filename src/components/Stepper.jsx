@@ -4,20 +4,18 @@ import { useState, useEffect, useRef } from 'react';
 import { toPng } from 'html-to-image';
 
 const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelected, setShowTicketErrors }) => {
-  const [currentStep, setCurrentStep] = useState(null);
+  const [currentStep, setCurrentStep] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return parseInt(localStorage.getItem('currentStep')) || 0;
+    }
+    return 0;
+  });
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef(null);
   const [ticketDetails, setTicketDetails] = useState(null);
   const ticketType = ticketDetails?.ticketType;
 
   const progress = ((currentStep + 1) / steps.length) * 100;
-
-  useEffect(() => {
-    const step = parseInt(localStorage.getItem('currentStep')) || 0;
-    setCurrentStep(step);
-    const details = JSON.parse(localStorage.getItem("ticketDetails") || '{}');
-    setTicketDetails(details);
-  }, []);
 
   const downloadTicket = async () => {
     try {
@@ -68,7 +66,11 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
 
   // Update localStorage when currentStep changes
   useEffect(() => {
-    localStorage.setItem('currentStep', currentStep);
+    if (currentStep !== null) {
+      localStorage.setItem('currentStep', currentStep);
+      const details = JSON.parse(localStorage.getItem("ticketDetails") || '{}');
+      setTicketDetails(details);
+    }
   }, [currentStep]);
 
   const handleNext = () => {
@@ -144,7 +146,7 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
     }
   };
 
-  if (currentStep === undefined || currentStep === null) return (
+  if (currentStep === null) return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="animate-spin rounded-full h-12 w-12 border-4 border-greenone border-t-transparent" />
     </div>

@@ -13,9 +13,16 @@ const BookedTicket = () => {
     if (Object.keys(details).length > 0) {
       setTicketDetails(details);
 
-      // add new ticket details to storage
-      const updatedTickets = [...existingTickets, details];
-      localStorage.setItem('myTickets', JSON.stringify(updatedTickets));
+      // Check if ticket already exists before adding
+      const ticketExists = existingTickets.some(ticket => 
+        ticket.name === details.name && 
+        ticket.email === details.email &&
+        ticket.ticketType === details.ticketType
+      );
+      if (!ticketExists) {
+        const updatedTickets = [...existingTickets, details];
+        localStorage.setItem('myTickets', JSON.stringify(updatedTickets));
+      }
 
       setTimeout(() => {
         localStorage.removeItem('ticketDetails');

@@ -43,8 +43,10 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
 
   // Update localStorage real time
   const updateLocalStorage = (tickets, ticketType) => {
+    const existingDetails = JSON.parse(localStorage.getItem("ticketDetails") || "{}");
     const ticketDetails = {
-      numberOfTickets: tickets || selectedTickets,
+      ...existingDetails,
+      numberOfTickets: tickets,
       ticketType: ticketType || selectedTicketType,
     };
     localStorage.setItem("ticketDetails", JSON.stringify(ticketDetails));
@@ -54,13 +56,13 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
   const handleTicketSelect = (num) => {
     setSelectedTickets(num);
     setErrors((prev) => ({ ...prev, ticketCount: "" }));
-    updateLocalStorage(num, null);
+    updateLocalStorage(num, selectedTicketType);
     setIsDropdownOpen(false);
   };
 
   // Handle ticket type select
   const handleTicketTypeSelect = (ticketType) => {
-    // Reset
+    // Reset selected tickets and update localStorage
     setSelectedTickets(null);
     setSelectedTicketType(ticketType);
     setErrors((prev) => ({ ...prev, ticketType: "" }));

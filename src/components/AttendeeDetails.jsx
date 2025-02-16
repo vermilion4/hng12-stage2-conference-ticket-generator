@@ -200,7 +200,7 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
         name: e.target.name.value,
         email: e.target.email.value,
         photo: imageUrl,
-        specialRequest: e.target.specialRequest.value.trim() || "No request",
+        specialRequest: e.target.specialRequest.value.trim() || "Nil",
       };
 
       // Get existing ticket details and merge with attendee data
