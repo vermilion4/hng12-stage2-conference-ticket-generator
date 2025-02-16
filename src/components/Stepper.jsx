@@ -10,7 +10,8 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
   });
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef(null);
-  const ticketType = JSON.parse(localStorage.getItem("ticketDetails") || '{}').ticketType;
+  const ticketDetails = JSON.parse(localStorage.getItem("ticketDetails") || '{}');
+  const ticketType = ticketDetails.ticketType;
 
   const progress = ((currentStep + 1) / steps.length) * 100;
 
@@ -38,7 +39,6 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
 
       // Create download link
       const link = document.createElement('a');
-      const ticketDetails = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
       link.download = `ticket-${ticketDetails.name || 'event'}.png`;
       link.href = dataUrl;
       link.click();
