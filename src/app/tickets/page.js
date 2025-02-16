@@ -174,7 +174,7 @@ const TicketsPage = () => {
               </div>
               
               {/* Overlay with download button */}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[20px] flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[20px] flex items-center justify-center group-hover:scale-[1.02]">
                 <button
                   onClick={() => downloadTicket(index)}
                   disabled={downloadingTickets[index]}
