@@ -8,7 +8,7 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
     if (typeof window !== 'undefined') {
       return parseInt(localStorage.getItem('currentStep')) || 0;
     }
-    return 0;
+    return null;
   });
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef(null);
