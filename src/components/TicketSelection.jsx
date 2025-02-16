@@ -151,7 +151,7 @@ const TicketSelection = ({ setIsTicketSelected, showErrors }) => {
                 >
                   <div className="flex flex-col gap-1 text-lightgrey group-hover:text-white">
                   <p className="font-semibold text-2xl">
-                      {ticketType.price === 0 ? "Free" : `₦${ticketType.price}`}
+                      {ticketType.price === 0 ? "Free" : `$${ticketType.price}`}
                     </p>
                     <h4 className="uppercase text-lightgrey">{ticketType.type}</h4>
                     <p className="text-sm text-[#D9D9D9]">{ticketsRemaining}/{ticketType.limit}</p>

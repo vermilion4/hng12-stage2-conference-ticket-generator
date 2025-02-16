@@ -4,9 +4,13 @@ import { useState, useEffect, useRef } from 'react';
 import { toPng } from 'html-to-image';
 
 const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelected, setShowTicketErrors }) => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(() => {
+    // Initialize from localStorage or default to 0
+    return parseInt(localStorage.getItem('currentStep')) || 0;
+  });
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef(null);
+  const ticketType = JSON.parse(localStorage.getItem("ticketDetails") || '{}').ticketType;
 
   const progress = ((currentStep + 1) / steps.length) * 100;
 
@@ -58,6 +62,11 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
     }
   }, [canProceed, currentStep, setCanProceed]);
 
+  // Update localStorage when currentStep changes
+  useEffect(() => {
+    localStorage.setItem('currentStep', currentStep);
+  }, [currentStep]);
+
   const handleNext = () => {
     if (currentStep === 0) {
       if (!isTicketSelected) {
@@ -103,7 +112,7 @@ const Stepper = ({ steps, onFormSubmit, canProceed, setCanProceed, isTicketSelec
               onClick={handleGetTicket}
               className={`px-6 w-full py-3 rounded-lg bg-greenone hover:bg-borderone text-white transition-colors whitespace-nowrap`}
             >
-              Get My Free Ticket
+              Get My {ticketType} Ticket
             </button>
           </div>
         );

@@ -7,26 +7,21 @@ const BookedTicket = () => {
   useEffect(() => {
     // Get ticket details first
     const details = JSON.parse(localStorage.getItem('ticketDetails') || '{}');
+    const existingTickets = JSON.parse(localStorage.getItem('myTickets') || '[]');
     
     if (Object.keys(details).length > 0) {
       setTicketDetails(details);
 
-      const existingTickets = JSON.parse(localStorage.getItem('myTickets') || '[]');
-      // Check if ticket already exists before adding
-      const ticketExists = existingTickets.some(ticket => 
-        ticket.name === details.name && 
-        ticket.email === details.email &&
-        ticket.ticketType === details.ticketType
-      );
-
-      if (!ticketExists) {
-        const updatedTickets = [...existingTickets, details];
-        localStorage.setItem('myTickets', JSON.stringify(updatedTickets));
-      }
+      // add new ticket details to storage
+      const updatedTickets = [...existingTickets, details];
+      localStorage.setItem('myTickets', JSON.stringify(updatedTickets));
 
       setTimeout(() => {
         localStorage.removeItem('ticketDetails');
       }, 0);
+    } else if (existingTickets.length > 0) {
+      // If no ticket details, show the most recent ticket
+      setTicketDetails(existingTickets[existingTickets.length - 1]);
     }
   }, []);
 

@@ -8,10 +8,9 @@ const ProjectPage = () => {
         <div className="p-6 bg-greenfour rounded-[32px] border border-greenthree">
           <h2 className="text-2xl font-roadrage mb-4">Tech Stack</h2>
           <div className="font-roboto space-y-2">
-            <p>• Next.js 13 with App Router</p>
+            <p>• Next.js 15 with App Router</p>
             <p>• TailwindCSS for styling</p>
             <p>• Local Storage for data persistence</p>
-            <p>• QR Code generation</p>
             <p>• HTML to Image conversion for ticket downloads</p>
           </div>
         </div>
@@ -19,7 +18,7 @@ const ProjectPage = () => {
         <div className="p-6 bg-greenfour rounded-[32px] border border-greenthree">
           <h2 className="text-2xl font-roadrage mb-4">Key Features</h2>
           <div className="font-roboto space-y-2">
-            <p>• Dynamic ticket generation with QR codes</p>
+            <p>• Dynamic ticket generation with Bar code</p>
             <p>• Responsive design that works on all devices</p>
             <p>• Ticket management system with search functionality</p>
             <p>• Downloadable tickets as PNG images</p>
@@ -33,8 +32,7 @@ const ProjectPage = () => {
             This project was built as a demonstration of modern web development practices. 
             The focus was on creating a seamless user experience while maintaining clean, 
             maintainable code. The ticket design was carefully crafted to be both 
-            visually appealing and functional, with features like QR codes for easy 
-            verification and downloadable formats for user convenience.
+            visually appealing and functional, with features like Ticket Limit tracking and downloadable formats for user convenience.
           </p>
         </div>
       </div>
