@@ -99,7 +99,7 @@ const EventTicket = ({ ticketDetails, isStep }) => {
               <label className="text-white text-opacity-[0.33] text-xs sm:text-sm">
                 Special request?
               </label>
-              <p className="text-white line-clamp-5">
+              <p className="text-white line-clamp-3">
                 {ticketDetails.specialRequest}
               </p>
             </div>

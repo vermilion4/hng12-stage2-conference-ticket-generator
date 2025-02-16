@@ -161,7 +161,7 @@ const AttendeeDetails = forwardRef(({ onSubmit }, ref) => {
         "ticketDetails",
         JSON.stringify({
           ...existingDetails,
-          specialRequest: value.trim() || "No request",
+          specialRequest: value.trim() || "Nil",
         }),
       );
     }
